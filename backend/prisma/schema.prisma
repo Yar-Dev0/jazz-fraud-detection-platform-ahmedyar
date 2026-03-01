@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Transaction {
+  id             Int      @id @default(autoincrement())
+  transaction_id String   @unique
+  user_id        String
+  amount         Float
+  timestamp      DateTime
+  device_id      String
+
+  risk_flag      String?
+  rule_triggered String?
+
+  @@index([user_id])
+  @@index([risk_flag])
+}
