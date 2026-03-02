@@ -7,6 +7,19 @@ import { UploadSummary } from "../types/api.types";
 const prisma = new PrismaClient();
 
 export class UploadService {
+  public static async processMultipleFiles(
+    files: Express.Multer.File[]
+  ): Promise<UploadSummary[]> {
+    const summaries: UploadSummary[] = [];
+
+    for (const file of files) {
+      const summary = await this.processCsvFile(file.path);
+      summaries.push(summary);
+    }
+
+    return summaries;
+  }
+
   public static async processCsvFile(filePath: string): Promise<UploadSummary> {
     const parsed = await parseCsvFile(filePath);
 
