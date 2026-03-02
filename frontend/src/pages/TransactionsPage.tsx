@@ -1,9 +1,17 @@
 import { useDashboard } from "../hooks/useDashboard";
-import { TransactionsTable } from "../components/transactions/TransactionsTable";
 import { Spinner } from "../components/ui/Spinner";
+import { lazy, Suspense } from "react";
+import { useNavigate } from "react-router-dom";
+
+const TransactionsTable = lazy(() =>
+  import("../components/transactions/TransactionsTable").then((mod) => ({
+    default: mod.TransactionsTable,
+  }))
+);
 
 export default function TransactionsPage() {
   const { transactions, loading, error } = useDashboard();
+  const navigate = useNavigate();
 
   return (
     <div className="space-y-6">
@@ -20,8 +28,14 @@ export default function TransactionsPage() {
       </header>
 
       {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">
-          {error}
+        <div className="rounded-lg border border-error-red bg-error-red/10 px-4 py-3 text-sm text-error-red">
+          <p>{error}</p>
+          <button
+            onClick={() => navigate("/upload")}
+            className="mt-2 inline-block rounded-full bg-primary-blue px-3 py-1 text-white text-xs font-medium hover:bg-dark-navy"
+          >
+            Upload Transactions
+          </button>
         </div>
       )}
 
@@ -30,7 +44,20 @@ export default function TransactionsPage() {
           <Spinner />
         </div>
       ) : (
-        <TransactionsTable transactions={transactions} />
+        <Suspense
+          fallback={
+            <div className="space-y-4">
+              {[...Array(5)].map((_, idx) => (
+                <div
+                  key={idx}
+                  className="h-6 animate-pulse rounded bg-slate-200"
+                />
+              ))}
+            </div>
+          }
+        >
+          <TransactionsTable transactions={transactions} />
+        </Suspense>
       )}
     </div>
   );

@@ -1,17 +1,13 @@
-import axios from "axios";
 import type { DashboardStats, Transaction, UploadSummary } from "../types/api.types";
-
-const api = axios.create({
-  baseURL: "http://localhost:8000/api",
-});
+import axiosInstance from "./axios";
 
 export async function fetchDashboard(): Promise<DashboardStats> {
-  const { data } = await api.get<DashboardStats>("/dashboard");
+  const { data } = await axiosInstance.get<DashboardStats>("/dashboard");
   return data;
 }
 
 export async function fetchTransactions(): Promise<Transaction[]> {
-  const { data } = await api.get<Transaction[]>("/transactions");
+  const { data } = await axiosInstance.get<Transaction[]>("/transactions");
   return data;
 }
 
@@ -21,9 +17,13 @@ export async function uploadTransactions(files: File[]): Promise<UploadSummary[]
     formData.append("files", file);
   });
 
-  const { data } = await api.post<UploadSummary[]>("/transactions/upload", formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
+  const { data } = await axiosInstance.post<UploadSummary[]>(
+    "/transactions/upload",
+    formData,
+    {
+      headers: { "Content-Type": "multipart/form-data" },
+    }
+  );
 
   return data;
 }

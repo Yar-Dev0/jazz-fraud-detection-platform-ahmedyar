@@ -1,5 +1,5 @@
 export function Spinner() {
   return (
-    <div className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-slate-400 border-t-transparent" />
+    <div className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-primary-blue border-t-transparent" />
   );
 }

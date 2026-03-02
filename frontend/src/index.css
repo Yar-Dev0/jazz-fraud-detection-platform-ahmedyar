@@ -3,6 +3,23 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --primary-blue: #0034A6;
+    --dark-navy: #001F63;
+    --neon-yellow: #C9FF09;
+    --white: #FFFFFF;
+    --light-gray: #F5F7FA;
+    --text-dark: #1A1A1A;
+    --text-gray: #4A4A4A;
+    --error-red: #E63946;
+    --success-green: #06A77D;
+    --border-radius-pill: 50px;
+    --border-radius-card: 20px;
+    --font-main: 'Outfit', sans-serif;
+    --container-width: 1200px;
+    --footer-navy: #0f1424;
+  }
+
   html,
   body,
   #root {
@@ -10,7 +27,8 @@
   }
 
   body {
-    @apply bg-slate-50 text-slate-900 font-sans antialiased;
+    font-family: var(--font-main);
+    @apply bg-slate-50 text-slate-900 antialiased;
   }
 
   body[data-theme="dark"] {

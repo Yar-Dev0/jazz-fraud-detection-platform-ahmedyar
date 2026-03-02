@@ -12,7 +12,7 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
     "all"
   );
   const [page, setPage] = useState(1);
-  const pageSize = 5;
+  const pageSize = 30;
 
   const filtered = useMemo(() => {
     return transactions.filter((tx) => {
@@ -47,7 +47,7 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
     <Card className="space-y-4">
       <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-slate-900">
+          <h2 className="text-lg font-semibold text-text-dark">
             Transactions
           </h2>
           <p className="mt-1 text-xs text-slate-500">
@@ -55,7 +55,7 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <span className="hidden text-xs font-medium uppercase tracking-wide text-slate-400 md:inline">
+          <span className="hidden text-xs font-medium uppercase tracking-wide text-text-gray md:inline">
             Filter by status
           </span>
           <select
@@ -63,7 +63,7 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
             onChange={(e) =>
               handleChangeFilter(e.target.value as typeof statusFilter)
             }
-            className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500/40"
+            className="rounded-full border border-light-gray bg-white px-3 py-1.5 text-sm text-text-dark shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-blue/40"
           >
             <option value="all">All Transactions</option>
             <option value="high">High Risk</option>
@@ -114,7 +114,7 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
               <tr>
                 <td
                   colSpan={7}
-                  className="py-6 text-center text-sm text-slate-500"
+                  className="py-6 text-center text-sm text-text-gray"
                 >
                   No transactions yet. Upload a CSV file to get started.
                 </td>

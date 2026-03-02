@@ -14,12 +14,12 @@ export function Badge({ children, variant = "default" }: BadgeProps) {
       className={clsx(
         "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium",
         {
-          "bg-slate-100 text-slate-700": variant === "default",
-          "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100":
+          "bg-light-gray text-text-gray": variant === "default",
+          "bg-success-green/20 text-success-green ring-1 ring-success-green/40":
             variant === "success",
-          "bg-amber-50 text-amber-700 ring-1 ring-amber-100":
+          "bg-neon-yellow/20 text-dark-navy ring-1 ring-neon-yellow/40":
             variant === "warning",
-          "bg-rose-50 text-rose-700 ring-1 ring-rose-100": variant === "danger",
+          "bg-error-red/20 text-error-red ring-1 ring-error-red/40": variant === "danger",
         }
       )}
     >

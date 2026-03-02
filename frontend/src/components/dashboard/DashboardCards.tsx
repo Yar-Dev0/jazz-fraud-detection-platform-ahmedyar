@@ -11,9 +11,12 @@ export function DashboardCards({ stats, loading }: DashboardCardsProps) {
   if (loading && !stats) {
     return (
       <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <div className="col-span-1 flex items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white py-8">
-          <Spinner />
-        </div>
+        {[...Array(4)].map((_, i) => (
+          <div
+            key={i}
+            className="h-24 animate-pulse rounded-xl bg-slate-200"
+          />
+        ))}
       </div>
     );
   }

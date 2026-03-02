@@ -10,7 +10,7 @@ export function UploadSummary({ summaries }: UploadSummaryProps) {
 
   return (
     <Card>
-      <h2 className="mb-4 text-lg font-semibold text-slate-900">
+      <h2 className="mb-4 text-lg font-semibold text-text-dark">
         Upload Summary
       </h2>
       <div className="space-y-4">
@@ -41,8 +41,8 @@ export function UploadSummary({ summaries }: UploadSummaryProps) {
 function SummaryItem({ label, value }: { label: string; value: number }) {
   return (
     <div className="flex flex-col">
-      <span className="text-xs text-slate-500">{label}</span>
-      <span className="text-sm font-medium text-slate-900">{value}</span>
+      <span className="text-xs text-text-gray">{label}</span>
+      <span className="text-sm font-medium text-text-dark">{value}</span>
     </div>
   );
 }

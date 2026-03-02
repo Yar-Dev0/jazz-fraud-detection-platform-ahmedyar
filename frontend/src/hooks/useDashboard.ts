@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { fetchDashboard, fetchTransactions } from "../api/api";
 import type { DashboardStats, Transaction } from "../types/api.types";
 
@@ -11,38 +11,51 @@ interface UseDashboardState {
 }
 
 export function useDashboard(): UseDashboardState {
-  const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data: stats,
+    isLoading: loadingStats,
+    isError: statsError,
+    error: statsErrObj,
+    refetch: refetchStats,
+  } = useQuery<DashboardStats>({
+    queryKey: ["dashboard"],
+    queryFn: fetchDashboard,
+    retry: false,
+  });
 
-  const load = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const [dashboardStats, txs] = await Promise.all([
-        fetchDashboard(),
-        fetchTransactions(),
-      ]);
-      setStats(dashboardStats);
-      setTransactions(txs);
-    } catch (err) {
-      setError("Failed to load dashboard data");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+  const {
+    data: transactions,
+    isLoading: loadingTx,
+    isError: txError,
+    error: txErrObj,
+    refetch: refetchTx,
+  } = useQuery<Transaction[]>({
+    queryKey: ["transactions"],
+    queryFn: fetchTransactions,
+    retry: false,
+  });
+
+  const loading = loadingStats || loadingTx;
+  let error: string | null = null;
+  if (statsError) {
+    error =
+      (statsErrObj as Error)?.message ||
+      "Unable to load dashboard information.";
+  } else if (txError) {
+    error =
+      (txErrObj as Error)?.message ||
+      "Unable to load transactions.";
+  }
+
+  const refresh = async () => {
+    await Promise.all([refetchStats(), refetchTx()]);
   };
 
-  useEffect(() => {
-    void load();
-  }, []);
-
   return {
-    stats,
-    transactions,
+    stats: stats ?? null,
+    transactions: transactions ?? [],
     loading,
     error,
-    refresh: load,
+    refresh,
   };
 }

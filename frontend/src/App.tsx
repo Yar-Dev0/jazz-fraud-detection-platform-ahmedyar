@@ -4,15 +4,20 @@ import Home from "./pages/Home";
 import TransactionsPage from "./pages/TransactionsPage";
 import UploadPage from "./pages/UploadPage";
 import { useTheme } from "./theme/ThemeProvider";
+import { UserMenu } from "./components/ui/UserMenu";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function AppShell() {
   const { theme, toggleTheme } = useTheme();
+  const queryClient = new QueryClient();
 
   return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-slate-50 text-slate-900 transition-colors duration-300 dark:bg-slate-900 dark:text-slate-50">
-        <Toaster position="top-right" />
-        <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/80 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-950/80">
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <div className="min-h-screen bg-slate-50 text-slate-900 transition-colors duration-300 dark:bg-slate-900 dark:text-slate-50">
+          <Toaster position="top-right" />
+          <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/80 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-950/80">
           <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-4 py-3 sm:flex-row sm:justify-between sm:px-6">
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">
@@ -28,14 +33,14 @@ function AppShell() {
                   </span>
                 </div>
               </div>
-              <nav className="flex gap-3 text-sm font-medium text-slate-600 sm:ml-6">
+              <nav className="flex flex-1 justify-center gap-3 text-sm font-medium text-text-gray">
                 <NavLink
                   to="/dashboard"
                   className={({ isActive }) =>
                     `rounded-full px-3.5 py-1.5 transition ${
                       isActive
-                        ? "bg-slate-900 text-white shadow-sm"
-                        : "text-slate-600 hover:bg-slate-100"
+                        ? "bg-primary-blue text-white shadow-sm"
+                        : "text-text-gray hover:bg-light-gray"
                     }`
                   }
                 >
@@ -46,8 +51,8 @@ function AppShell() {
                   className={({ isActive }) =>
                     `rounded-full px-3.5 py-1.5 transition ${
                       isActive
-                        ? "bg-slate-900 text-white shadow-sm"
-                        : "text-slate-600 hover:bg-slate-100"
+                        ? "bg-primary-blue text-white shadow-sm"
+                        : "text-text-gray hover:bg-light-gray"
                     }`
                   }
                 >
@@ -58,8 +63,8 @@ function AppShell() {
                   className={({ isActive }) =>
                     `rounded-full px-3.5 py-1.5 transition ${
                       isActive
-                        ? "bg-slate-900 text-white shadow-sm"
-                        : "text-slate-600 hover:bg-slate-100"
+                        ? "bg-primary-blue text-white shadow-sm"
+                        : "text-text-gray hover:bg-light-gray"
                     }`
                   }
                 >
@@ -67,7 +72,7 @@ function AppShell() {
                 </NavLink>
               </nav>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 relative">
               <button
                 type="button"
                 onClick={toggleTheme}
@@ -75,13 +80,11 @@ function AppShell() {
               >
                 <span aria-hidden="true">{theme === "light" ? "☾" : "☀"}</span>
               </button>
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white shadow-sm dark:bg-slate-100 dark:text-slate-900">
-                U
-              </div>
+              <UserMenu />
             </div>
           </div>
         </header>
-        <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+        <main className="mx-auto max-w-[var(--container-width)] px-4 py-8 sm:px-6">
           <Routes>
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<Home />} />
@@ -91,6 +94,7 @@ function AppShell() {
         </main>
       </div>
     </BrowserRouter>
+  </QueryClientProvider>
   );
 }
 
