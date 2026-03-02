@@ -39,7 +39,7 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
   const formatAmount = (amount: number) =>
     new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: "USD",
+      currency: "PKR",
       maximumFractionDigits: 2,
     }).format(amount);
 
