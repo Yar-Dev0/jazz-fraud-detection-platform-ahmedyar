@@ -17,12 +17,12 @@ export function UploadSummary({ summaries }: UploadSummaryProps) {
         {summaries.map((summary) => (
           <div
             key={summary.file_name}
-            className="rounded-lg border border-slate-200 p-3 text-sm"
+            className="rounded-xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-4 text-sm transition-all duration-300 ease-out hover:shadow-md hover:border-slate-300 hover:from-slate-100"
           >
-            <div className="mb-2 font-medium text-slate-800">
+            <div className="mb-3 font-semibold text-slate-800">
               {summary.file_name}
             </div>
-            <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
               <SummaryItem label="Total Rows" value={summary.total_rows} />
               <SummaryItem label="Total Columns" value={summary.total_columns} />
               <SummaryItem label="Inserted" value={summary.inserted} />

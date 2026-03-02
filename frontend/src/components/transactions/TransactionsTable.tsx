@@ -63,7 +63,7 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
             onChange={(e) =>
               handleChangeFilter(e.target.value as typeof statusFilter)
             }
-            className="rounded-full border border-light-gray bg-white px-3 py-1.5 text-sm text-text-dark shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-blue/40"
+            className="rounded-full border border-light-gray bg-white px-3 py-1.5 text-sm text-text-dark shadow-sm transition-all duration-300 ease-out hover:shadow-md hover:border-primary-blue focus:outline-none focus:ring-2 focus:ring-primary-blue/40 focus:shadow-lg focus:shadow-primary-blue/20 cursor-pointer"
           >
             <option value="all">All Transactions</option>
             <option value="high">High Risk</option>
@@ -146,7 +146,7 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
             type="button"
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            className="rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600 shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600 shadow-sm transition-all duration-300 ease-out hover:shadow-md hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:shadow-sm disabled:hover:border-slate-200 disabled:hover:bg-white"
           >
             Previous
           </button>
@@ -166,7 +166,7 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
               setPage((p) => Math.min(totalPages, p + 1))
             }
             disabled={currentPage === totalPages}
-            className="rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600 shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600 shadow-sm transition-all duration-300 ease-out hover:shadow-md hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:shadow-sm disabled:hover:border-slate-200 disabled:hover:bg-white"
           >
             Next
           </button>
@@ -205,12 +205,12 @@ function Cell({
 
 function rowClassName(riskFlag: Transaction["risk_flag"]): string {
   if (riskFlag === "HIGH_RISK") {
-    return "bg-red-50/70 hover:bg-red-100/90 border-l-4 border-l-rose-400";
+    return "bg-red-50/70 hover:bg-red-100/90 border-l-4 border-l-rose-400 transition-all duration-300 ease-out hover:shadow-md hover:shadow-rose-100/50 cursor-pointer";
   }
   if (riskFlag === "SUSPICIOUS") {
-    return "bg-amber-50/80 hover:bg-amber-100/90 border-l-4 border-l-amber-400";
+    return "bg-amber-50/80 hover:bg-amber-100/90 border-l-4 border-l-amber-400 transition-all duration-300 ease-out hover:shadow-md hover:shadow-amber-100/50 cursor-pointer";
   }
-  return "hover:bg-slate-50 border-l-4 border-l-transparent";
+  return "hover:bg-slate-50 border-l-4 border-l-transparent transition-all duration-300 ease-out hover:shadow-sm hover:shadow-slate-100/50 cursor-pointer";
 }
 
 function renderRiskBadge(flag: NonNullable<Transaction["risk_flag"]>) {

@@ -35,10 +35,10 @@ function AppShell() {
                 <NavLink
                   to="/dashboard"
                   className={({ isActive }) =>
-                    `rounded-full px-3.5 py-1.5 transition ${
+                    `rounded-full px-3.5 py-1.5 transition-all duration-300 ease-out ${
                       isActive
-                        ? "bg-primary-blue text-white shadow-sm"
-                        : "text-text-gray hover:bg-light-gray"
+                        ? "bg-primary-blue text-white shadow-lg shadow-primary-blue/30 hover:shadow-xl hover:shadow-primary-blue/40"
+                        : "text-text-gray hover:bg-light-gray hover:shadow-sm hover:shadow-slate-200/50 hover:scale-105"
                     }`
                   }
                 >
@@ -47,10 +47,10 @@ function AppShell() {
                 <NavLink
                   to="/transactions"
                   className={({ isActive }) =>
-                    `rounded-full px-3.5 py-1.5 transition ${
+                    `rounded-full px-3.5 py-1.5 transition-all duration-300 ease-out ${
                       isActive
-                        ? "bg-primary-blue text-white shadow-sm"
-                        : "text-text-gray hover:bg-light-gray"
+                        ? "bg-primary-blue text-white shadow-lg shadow-primary-blue/30 hover:shadow-xl hover:shadow-primary-blue/40"
+                        : "text-text-gray hover:bg-light-gray hover:shadow-sm hover:shadow-slate-200/50 hover:scale-105"
                     }`
                   }
                 >
@@ -59,10 +59,10 @@ function AppShell() {
                 <NavLink
                   to="/upload"
                   className={({ isActive }) =>
-                    `rounded-full px-3.5 py-1.5 transition ${
+                    `rounded-full px-3.5 py-1.5 transition-all duration-300 ease-out ${
                       isActive
-                        ? "bg-primary-blue text-white shadow-sm"
-                        : "text-text-gray hover:bg-light-gray"
+                        ? "bg-primary-blue text-white shadow-lg shadow-primary-blue/30 hover:shadow-xl hover:shadow-primary-blue/40"
+                        : "text-text-gray hover:bg-light-gray hover:shadow-sm hover:shadow-slate-200/50 hover:scale-105"
                     }`
                   }
                 >
