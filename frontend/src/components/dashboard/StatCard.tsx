@@ -13,18 +13,18 @@ interface StatCardProps {
 export function StatCard({ label, value, tone = "neutral" }: StatCardProps) {
   const toneClasses =
     tone === "primary"
-      ? "border-primary-blue bg-primary-blue/10"
+      ? "border-primary-blue bg-primary-blue/20"
       : tone === "warning"
-      ? "border-neon-yellow bg-neon-yellow/10"
+      ? "border-neon-yellow bg-neon-yellow/20"
       : tone === "danger"
-      ? "border-error-red bg-error-red/10"
-      : "border-light-gray bg-white";
+      ? "border-error-red bg-error-red/20"
+      : "border-light-gray bg-light-gray";
 
   const icon =
     tone === "primary" ? (
       <FaList className="text-primary-blue" />
     ) : tone === "warning" ? (
-      <FaExclamationTriangle className="text-neon-yellow" />
+      <FaExclamationTriangle className="text-dark-navy" />
     ) : tone === "danger" ? (
       <FaFire className="text-error-red" />
     ) : (
@@ -32,16 +32,12 @@ export function StatCard({ label, value, tone = "neutral" }: StatCardProps) {
     );
 
   return (
-    <Card className={`flex flex-col gap-3 border ${toneClasses}`}>
-      <div className="flex items-center justify-between text-xs font-medium text-text-gray">
-        <span className="flex items-center gap-1">
-          {icon}
-          {label}
-        </span>
+    <Card className={`flex justify-between items-center p-6 border ${toneClasses}`}>
+      <div>
+        <div className="text-2xl font-bold text-text-dark">{value}</div>
+        <div className="text-sm text-text-gray mt-1">{label}</div>
       </div>
-      <div className="text-3xl font-semibold tracking-tight text-text-dark">
-        {value}
-      </div>
+      <div className="text-3xl">{icon}</div>
     </Card>
   );
 }

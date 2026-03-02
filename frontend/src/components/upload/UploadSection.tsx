@@ -23,6 +23,10 @@ export function UploadSection({ onUploadComplete }: UploadSectionProps) {
         // drop extras
         setFiles((prev) => prev.slice(0, 1));
       }
+      // also clear the hidden input value so the browser doesn't remember multiple files
+      if (inputRef.current && !newVal) {
+        inputRef.current.value = "";
+      }
       return newVal;
     });
   };
@@ -62,7 +66,8 @@ export function UploadSection({ onUploadComplete }: UploadSectionProps) {
       return;
     }
     setFiles((prev) => (multi ? [...prev, ...valid] : valid.slice(0, 1)));
-    toast.success(`Ready to upload ${valid.length} file(s)`, {
+    const count = multi ? valid.length : 1;
+    toast.success(`Ready to upload ${count} file(s)`, {
       icon: "📂",
     });
   }, [loading, multi]);
@@ -134,6 +139,7 @@ export function UploadSection({ onUploadComplete }: UploadSectionProps) {
                 checked={multi}
                 onChange={toggleMulti}
                 id="multi-toggle"
+                disabled={loading}
               />
               <label htmlFor="multi-toggle" className="text-sm text-slate-700">
                 Enable multiple files
@@ -199,7 +205,7 @@ export function UploadSection({ onUploadComplete }: UploadSectionProps) {
                 ))}
               </ul>
             )}
-            <Button onClick={handleUpload} loading={loading}>
+            <Button onClick={handleUpload} loading={loading} disabled={files.length === 0}>
               Upload
             </Button>
           </div>

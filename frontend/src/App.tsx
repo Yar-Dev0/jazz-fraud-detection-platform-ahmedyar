@@ -3,13 +3,11 @@ import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home";
 import TransactionsPage from "./pages/TransactionsPage";
 import UploadPage from "./pages/UploadPage";
-import { useTheme } from "./theme/ThemeProvider";
 import { UserMenu } from "./components/ui/UserMenu";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function AppShell() {
-  const { theme, toggleTheme } = useTheme();
   const queryClient = new QueryClient();
 
   return (
@@ -33,7 +31,7 @@ function AppShell() {
                   </span>
                 </div>
               </div>
-              <nav className="flex flex-1 justify-center gap-3 text-sm font-medium text-text-gray">
+              <nav className="flex flex-1 justify-center md:justify-start gap-3 text-sm font-medium text-text-gray">
                 <NavLink
                   to="/dashboard"
                   className={({ isActive }) =>
@@ -73,13 +71,6 @@ function AppShell() {
               </nav>
             </div>
             <div className="flex items-center gap-3 relative">
-              <button
-                type="button"
-                onClick={toggleTheme}
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-sm text-slate-600 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
-              >
-                <span aria-hidden="true">{theme === "light" ? "☾" : "☀"}</span>
-              </button>
               <UserMenu />
             </div>
           </div>

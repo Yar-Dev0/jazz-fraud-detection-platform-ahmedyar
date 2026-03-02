@@ -1,6 +1,5 @@
 import { StatCard } from "./StatCard";
 import type { DashboardStats } from "../../types/api.types";
-import { Spinner } from "../ui/Spinner";
 
 interface DashboardCardsProps {
   stats: DashboardStats | null;

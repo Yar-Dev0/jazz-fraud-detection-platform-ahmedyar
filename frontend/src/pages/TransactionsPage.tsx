@@ -1,5 +1,4 @@
 import { useDashboard } from "../hooks/useDashboard";
-import { Spinner } from "../components/ui/Spinner";
 import { lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +9,7 @@ const TransactionsTable = lazy(() =>
 );
 
 export default function TransactionsPage() {
-  const { transactions, loading, error } = useDashboard();
+  const { transactions, error } = useDashboard();
   const navigate = useNavigate();
 
   return (
@@ -29,7 +28,7 @@ export default function TransactionsPage() {
 
       {error && (
         <div className="rounded-lg border border-error-red bg-error-red/10 px-4 py-3 text-sm text-error-red">
-          <p>{error}</p>
+          <p>Unable to load transactions. Please upload a CSV to get started.</p>
           <button
             onClick={() => navigate("/upload")}
             className="mt-2 inline-block rounded-full bg-primary-blue px-3 py-1 text-white text-xs font-medium hover:bg-dark-navy"
@@ -39,26 +38,20 @@ export default function TransactionsPage() {
         </div>
       )}
 
-      {loading && !transactions.length ? (
-        <div className="flex items-center justify-center py-10">
-          <Spinner />
-        </div>
-      ) : (
-        <Suspense
-          fallback={
-            <div className="space-y-4">
-              {[...Array(5)].map((_, idx) => (
-                <div
-                  key={idx}
-                  className="h-6 animate-pulse rounded bg-slate-200"
-                />
-              ))}
-            </div>
-          }
-        >
-          <TransactionsTable transactions={transactions} />
-        </Suspense>
-      )}
+      <Suspense
+        fallback={
+          <div className="space-y-4">
+            {[...Array(5)].map((_, idx) => (
+              <div
+                key={idx}
+                className="h-6 animate-pulse rounded bg-slate-200"
+              />
+            ))}
+          </div>
+        }
+      >
+        <TransactionsTable transactions={transactions} />
+      </Suspense>
     </div>
   );
 }
