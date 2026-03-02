@@ -30,13 +30,13 @@ export function DashboardCards({ stats, loading }: DashboardCardsProps) {
       <StatCard
         label="Total Flagged"
         value={stats?.flagged_transactions ?? 0}
-        tone="warning"
+        tone="flagged"
       />
       <StatCard label="High Risk" value={stats?.high_risk ?? 0} tone="danger" />
       <StatCard
         label="Suspicious"
         value={stats?.suspicious ?? 0}
-        tone="warning"
+        tone="suspicious"
       />
     </div>
   );

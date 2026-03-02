@@ -15,7 +15,7 @@ export default function Home() {
     <div className="space-y-8">
       <header className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between bg-primary-blue text-white rounded-xl px-6 py-8">
         <div>
-          <p className="mb-2 inline-flex items-center rounded-full bg-white/30 px-3 py-1 text-xs font-medium text-white ring-1 ring-white/40">
+          <p className="mb-2 inline-flex items-center rounded-full bg-white/30 px-3 py-1 text-xs font-medium text-neon-yellow ring-1 ring-white/40">
             Real-time fraud detection and monitoring
           </p>
           <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">

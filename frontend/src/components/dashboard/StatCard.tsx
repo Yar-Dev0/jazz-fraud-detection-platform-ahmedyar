@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import { Card } from "../ui/Card";
-import { Activity, AlertTriangle, ShieldAlert, TrendingUp } from "lucide-react";
+import { Activity, Flag, ShieldAlert, Zap } from "lucide-react";
 
-type StatTone = "neutral" | "primary" | "warning" | "danger";
+type StatTone = "neutral" | "primary" | "flagged" | "suspicious" | "danger";
 
 interface StatCardProps {
   label: string;
@@ -14,8 +14,10 @@ export function StatCard({ label, value, tone = "neutral" }: StatCardProps) {
   const toneClasses =
     tone === "primary"
       ? "border-2 border-primary-blue bg-gradient-to-br from-primary-blue/10 to-primary-blue/5 hover:bg-gradient-to-br hover:from-primary-blue/15 hover:to-primary-blue/10 hover:shadow-lg hover:shadow-primary-blue/20"
-      : tone === "warning"
-      ? "border-2 border-neon-yellow bg-gradient-to-br from-neon-yellow/10 to-neon-yellow/5 hover:bg-gradient-to-br hover:from-neon-yellow/15 hover:to-neon-yellow/10 hover:shadow-lg hover:shadow-neon-yellow/20"
+      : tone === "flagged"
+      ? "border-2 border-amber-400 bg-gradient-to-br from-amber-50 to-amber-50/50 hover:bg-gradient-to-br hover:from-amber-100 hover:to-amber-50 hover:shadow-lg hover:shadow-amber-200/50"
+      : tone === "suspicious"
+      ? "border-2 border-orange-400 bg-gradient-to-br from-orange-50 to-orange-50/50 hover:bg-gradient-to-br hover:from-orange-100 hover:to-orange-50 hover:shadow-lg hover:shadow-orange-200/50"
       : tone === "danger"
       ? "border-2 border-error-red bg-gradient-to-br from-error-red/10 to-error-red/5 hover:bg-gradient-to-br hover:from-error-red/15 hover:to-error-red/10 hover:shadow-lg hover:shadow-error-red/20"
       : "border-2 border-light-gray bg-gradient-to-br from-slate-50 to-slate-100 hover:from-slate-100 hover:to-slate-150 hover:shadow-lg hover:shadow-slate-200/50";
@@ -23,8 +25,10 @@ export function StatCard({ label, value, tone = "neutral" }: StatCardProps) {
   const iconClass =
     tone === "primary"
       ? "text-primary-blue"
-      : tone === "warning"
-      ? "text-neon-yellow"
+      : tone === "flagged"
+      ? "text-amber-600"
+      : tone === "suspicious"
+      ? "text-orange-600"
       : tone === "danger"
       ? "text-error-red"
       : "text-text-gray";
@@ -32,12 +36,14 @@ export function StatCard({ label, value, tone = "neutral" }: StatCardProps) {
   const icon =
     tone === "primary" ? (
       <Activity className={`w-8 h-8 ${iconClass}`} strokeWidth={1.5} />
-    ) : tone === "warning" ? (
-      <AlertTriangle className={`w-8 h-8 ${iconClass}`} strokeWidth={1.5} />
+    ) : tone === "flagged" ? (
+      <Flag className={`w-8 h-8 ${iconClass}`} strokeWidth={1.5} />
+    ) : tone === "suspicious" ? (
+      <Zap className={`w-8 h-8 ${iconClass}`} strokeWidth={1.5} />
     ) : tone === "danger" ? (
       <ShieldAlert className={`w-8 h-8 ${iconClass}`} strokeWidth={1.5} />
     ) : (
-      <TrendingUp className={`w-8 h-8 ${iconClass}`} strokeWidth={1.5} />
+      <Activity className={`w-8 h-8 ${iconClass}`} strokeWidth={1.5} />
     );
 
   return (

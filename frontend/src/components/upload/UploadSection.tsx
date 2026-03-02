@@ -24,6 +24,9 @@ export function UploadSection({ onUploadComplete }: UploadSectionProps) {
       if (!newVal && files.length > 1) {
         // drop extras when disabling multi
         setFiles((prev) => prev.slice(0, 1));
+        toast.success("Switched to single file mode", { icon: "📄" });
+      } else if (newVal) {
+        toast.success("Switched to multiple files mode", { icon: "📁" });
       }
       // clear the hidden input value so the browser doesn't remember multiple files
       if (inputRef.current && !newVal) {
@@ -60,7 +63,7 @@ export function UploadSection({ onUploadComplete }: UploadSectionProps) {
   const handleDrop = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     event.stopPropagation();
-    if (loading) return;
+    if (loading || (!multi && files.length > 0)) return;
     const droppedFiles = event.dataTransfer.files;
     if (!droppedFiles) return;
     const arr = Array.from(droppedFiles);
@@ -78,7 +81,7 @@ export function UploadSection({ onUploadComplete }: UploadSectionProps) {
     toast.success(`Ready to upload ${count} file(s)`, {
       icon: "📂",
     });
-  }, [loading, multi]);
+  }, [loading, multi, files.length]);
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -172,9 +175,9 @@ export function UploadSection({ onUploadComplete }: UploadSectionProps) {
             <div
               onDrop={handleDrop}
               onDragOver={handleDragOver}
-              onClick={() => !loading && inputRef.current?.click()}
+              onClick={() => !loading && !(!multi && files.length > 0) && inputRef.current?.click()}
               className={`relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed bg-gradient-to-br from-slate-50 to-slate-100 px-4 py-16 text-center text-sm text-slate-500 transition-all duration-300 ${
-                loading
+                loading || (!multi && files.length > 0)
                   ? "pointer-events-none opacity-50 border-slate-300"
                   : "cursor-pointer border-slate-300 hover:border-primary-blue hover:from-blue-50 hover:to-blue-100 hover:shadow-lg hover:shadow-blue-100/50"
               }`}
