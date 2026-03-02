@@ -29,7 +29,7 @@ export class UploadService {
     let highRisk = 0;
     let suspicious = 0;
 
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       for (const row of parsed.rows) {
         const parseResult = transactionSchema.safeParse({
           transaction_id: row.transaction_id,
@@ -56,7 +56,7 @@ export class UploadService {
         }
 
         const fraudResult = await FraudService.evaluateTransaction(
-          tx as unknown as Prisma.TransactionClient,
+          tx,
           data
         );
 
