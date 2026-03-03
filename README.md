@@ -96,7 +96,7 @@ Estimated sizing notes:
 
 > AI usage disclosure:
 >
-> - Core backend architecture, database schema, and fraud rule logic were designed and implemented by the candidate.
+> - Core backend architecture, database schema, and fraud rule logic were designed and implemented by ME ( the candidate).
 > - AI assistance was used for frontend design polish, TypeScript typing hints, copywriting edits, and README/documentation clarity.
 > - Specific AI usage: small prompts were used to refine component layout and fix TypeScript type errors in the frontend. No AI-generated business logic or database design was used.
 
