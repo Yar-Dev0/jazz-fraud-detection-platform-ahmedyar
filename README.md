@@ -18,6 +18,8 @@ Prerequisites: Node 18+, npm (or pnpm/yarn), Git.
 
 1) Backend
 
+Open a terminal, navigate to the backend folder, and start the server:
+
 ```bash
 cd backend
 npm install
@@ -25,6 +27,8 @@ npm run dev
 ```
 
 2) Frontend
+
+Open a new terminal window, navigate to the frontend folder, and start the frontend:
 
 ```bash
 cd frontend
@@ -138,8 +142,7 @@ Estimated sizing notes:
 
 ## How to Evaluate This Project Locally
 
-- Start the backend as shown in Quick Setup.
-- Start the frontend.
+- Start the backend and frontend as shown in Quick Setup.
 - Open the frontend in your browser (http://localhost:5173):
 - The app comes with pre-filled sample transactions in the included database, so the Dashboard and Transactions page already show working data.
 - Optionally, you can upload additional CSV files via the UI or POST CSVs to the backend /upload route to test new transactions. 
