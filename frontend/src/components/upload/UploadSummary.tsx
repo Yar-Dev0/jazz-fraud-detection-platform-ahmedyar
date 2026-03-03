@@ -1,5 +1,6 @@
 import type { UploadSummary as UploadSummaryType } from "../../types/api.types";
 import { Card } from "../ui/Card";
+import { Link } from "react-router-dom";
 
 interface UploadSummaryProps {
   summaries: UploadSummaryType[];
@@ -19,9 +20,6 @@ export function UploadSummary({ summaries }: UploadSummaryProps) {
             key={summary.file_name}
             className="rounded-xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-4 text-sm transition-all duration-300 ease-out hover:shadow-md hover:border-slate-300 hover:from-slate-100"
           >
-            <div className="mb-3 font-semibold text-slate-800">
-              {summary.file_name}
-            </div>
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
               <SummaryItem label="Total Rows" value={summary.total_rows} />
               <SummaryItem label="Total Columns" value={summary.total_columns} />
@@ -33,6 +31,14 @@ export function UploadSummary({ summaries }: UploadSummaryProps) {
             </div>
           </div>
         ))}
+      </div>
+      <div className="mt-6 text-center">
+        <Link
+          to="/transactions"
+          className="inline-block rounded-lg bg-primary-blue text-white font-semibold px-6 py-3 hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl"
+        >
+          View Transactions
+        </Link>
       </div>
     </Card>
   );

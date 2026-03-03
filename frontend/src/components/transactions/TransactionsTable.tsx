@@ -14,14 +14,22 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
   const [page, setPage] = useState(1);
   const pageSize = 30;
 
+  const sortedTransactions = useMemo(() => {
+    return [...transactions].sort((a, b) => {
+      const ta = new Date(a.timestamp).getTime();
+      const tb = new Date(b.timestamp).getTime();
+      return ta - tb;
+    });
+  }, [transactions]);
+
   const filtered = useMemo(() => {
-    return transactions.filter((tx) => {
+    return sortedTransactions.filter((tx) => {
       if (statusFilter === "all") return true;
       if (statusFilter === "high") return tx.risk_flag === "HIGH_RISK";
       if (statusFilter === "suspicious") return tx.risk_flag === "SUSPICIOUS";
       return !tx.risk_flag || tx.risk_flag === "NORMAL";
     });
-  }, [transactions, statusFilter]);
+  }, [sortedTransactions, statusFilter]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   const currentPage = Math.min(page, totalPages);
