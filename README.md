@@ -16,8 +16,6 @@ Prerequisites: Node 18+, npm (or pnpm/yarn), Git.
 ```bash
 cd backend
 npm install
-npx prisma generate
-npx prisma migrate dev --name init
 npm run dev
 ```
 
@@ -40,12 +38,12 @@ To make evaluation easier:
    - All transactions currently visible in the frontend (Dashboard & Transactions page) come from this database.
    - Evaluators **do not need to upload CSVs** to see working data and dashboard statistics.
 
-3. **Reset Database (Optional)**
+3. **Reset Database (Optional if needs a fresh DB)**
    - If the evaluator wants to start fresh:
      ```bash
      cd backend
      npm run reset-db
-     npm start
+     npm run dev
      ```
    - This deletes the pre-filled DB and starts with an empty database.
 
