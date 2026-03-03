@@ -13,68 +13,80 @@ export default function Home() {
 
   return (
     <div className="space-y-8">
-      <header className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between bg-primary-blue text-white rounded-xl px-6 py-8">
-        <div>
-          <p className="mb-2 inline-flex items-center rounded-full bg-white/30 px-3 py-1 text-xs font-medium text-neon-yellow ring-1 ring-white/40">
-            Real-time fraud detection and monitoring
-          </p>
-          <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">
-            Transaction Risk Monitor
-          </h1>
-          <p className="mt-2 max-w-xl text-sm text-white/90">
-            Stay ahead of suspicious activity with live transaction insights,
-            configurable rules, and a streamlined workflow for your fraud ops
-            team.
-          </p>
+      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-blue to-dark-navy text-white">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-20 -right-20 h-40 w-40 bg-neon-yellow opacity-5 rounded-full blur-2xl" />
+          <div className="absolute -bottom-10 -left-10 h-48 w-48 bg-blue-400 opacity-5 rounded-full blur-2xl" />
         </div>
-        <div className="flex flex-col items-start gap-3 rounded-xl bg-white px-4 py-4 text-sm shadow-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800 md:w-80">
-          <div className="flex w-full items-center justify-between">
-            <span className="text-xs font-medium uppercase tracking-wide text-text-gray">
-              Today&apos;s Overview
-            </span>
-            <span className="text-[11px] text-text-gray">Updated a moment ago</span>
-          </div>
-          <div className="flex w-full items-baseline justify-between">
-            <div>
-              <div className="text-2xl font-semibold text-text-dark dark:text-text-dark">
-                {stats?.total_transactions ?? 0}
-              </div>
-              <div className="text-xs text-text-gray">Total transactions</div>
+
+        <div className="relative px-6 py-12 md:px-12 md:py-14">
+          <div className="max-w-3xl">
+            <div className="space-y-4">
+              <p className="inline-flex items-center rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-neon-yellow ring-1 ring-white/30 backdrop-blur-sm">
+                <span className="relative flex h-1.5 w-1.5 mr-2">
+                  <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-neon-yellow opacity-75" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-neon-yellow" />
+                </span>
+                Fraud Detection System
+              </p>
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+                Monitor Transactions
+                <span className="block text-neon-yellow">Identify Fraud Instantly</span>
+              </h1>
+              <p className="text-base text-white/80 max-w-2xl leading-relaxed">
+                TransactionGuard monitors your transactions in real-time, applies configurable fraud rules, and flags suspicious activity instantly. Stay in control of your transaction risk.
+              </p>
             </div>
-            <div className="rounded-full bg-neon-yellow/20 px-3 py-1 text-[11px] font-medium text-dark-navy ring-1 ring-neon-yellow/40">
-              {stats?.high_risk ?? 0} High Risk
+
+            <div className="flex flex-col sm:flex-row gap-3 pt-8">
+              <Link
+                to="/transactions"
+                className="inline-flex items-center justify-center rounded-lg bg-neon-yellow text-dark-navy font-semibold px-5 py-2.5 hover:bg-yellow-300 transition-all shadow-md hover:shadow-lg text-sm"
+              >
+                View Transactions
+              </Link>
+              <Link
+                to="/upload"
+                className="inline-flex items-center justify-center rounded-lg bg-white/20 text-white font-semibold px-5 py-2.5 hover:bg-white/30 transition-all border border-white/30 backdrop-blur-sm text-sm"
+              >
+                Upload Data
+              </Link>
             </div>
           </div>
-          <p className="text-xs text-text-gray dark:text-text-gray">
-            Monitor anomalies in real time and drill into flagged payments as
-            they happen.
-          </p>
         </div>
-      </header>
+      </section>
 
       {error && (
-        <div className="mb-4 flex flex-col items-center gap-2 rounded-lg border border-error-red bg-error-red/10 px-4 py-3 text-sm text-error-red">
-          <span>No dashboard data available.</span>
-          <Link
-            to="/upload"
-            className="inline-block rounded-full bg-primary-blue px-3 py-1 text-white text-xs font-medium hover:bg-dark-navy"
-          >
-            Add transactions
-          </Link>
+        <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-6 py-6 text-amber-900 dark:text-amber-100 backdrop-blur-sm">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h3 className="font-semibold text-lg mb-1">Get Started with RiskShield</h3>
+              <p className="text-amber-900/80 dark:text-amber-100/80 text-sm">
+                You haven't uploaded any transactions yet. Start monitoring fraud risk by uploading your transaction data now.
+              </p>
+            </div>
+            <Link
+              to="/upload"
+              className="inline-flex items-center justify-center rounded-lg bg-primary-blue text-white font-semibold px-4 py-2 hover:bg-dark-navy transition-all whitespace-nowrap"
+            >
+              Upload Transactions
+            </Link>
+          </div>
         </div>
       )}
 
-      <section className="space-y-4">
-        <h2 className="text-sm font-medium uppercase tracking-wide text-slate-500">
-          Key Metrics
-        </h2>
+      <section className="space-y-6">
+        <div>
+          <h2 className="text-2xl font-bold text-text-dark mb-2">Dashboard Analytics</h2>
+          <p className="text-text-gray">Real-time metrics and insights about your transaction monitoring</p>
+        </div>
         <Suspense
           fallback={
             <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
               {[...Array(4)].map((_, i) => (
                 <div
                   key={i}
-                  className="h-24 animate-pulse rounded-xl bg-slate-200"
+                  className="h-28 animate-pulse rounded-xl bg-gradient-to-br from-slate-200 to-slate-100"
                 />
               ))}
             </div>

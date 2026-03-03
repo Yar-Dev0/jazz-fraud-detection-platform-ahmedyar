@@ -28,7 +28,7 @@ export default function TransactionsPage() {
 
       {error && (
         <div className="rounded-lg border border-error-red bg-error-red/10 px-4 py-3 text-sm text-error-red">
-          <p>Unable to load transactions. Please upload a CSV to get started.</p>
+          <p>Please upload transactions first to get started.</p>
           <button
             onClick={() => navigate("/upload")}
             className="mt-2 inline-block rounded-full bg-primary-blue px-3 py-1 text-white text-xs font-medium hover:bg-dark-navy"
