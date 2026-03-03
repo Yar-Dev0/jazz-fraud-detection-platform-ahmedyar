@@ -31,6 +31,24 @@ npm run dev
 
 3) Upload sample transactions via the UI at the frontend URL (usually `http://localhost:5173`) or POST CSV to the backend `/upload` route.
 
+## Pre-Filled Data & Sample CSVs
+
+To make evaluation easier:
+
+1. **Pre-Filled Database**
+   - This repo includes `backend/dev.db`, a pre-populated SQLite database.
+   - All transactions currently visible in the frontend (Dashboard & Transactions page) come from this database.
+   - Evaluators **do not need to upload CSVs** to see working data and dashboard statistics.
+
+3. **Reset Database (Optional)**
+   - If the evaluator wants to start fresh:
+     ```bash
+     cd backend
+     npm run reset-db
+     npm start
+     ```
+   - This deletes the pre-filled DB and starts with an empty database.
+
 ## Architecture Overview
 
 - API: An Express app in `backend/src` exposes REST endpoints. Routes live in `backend/src/routes` and controllers in `backend/src/controllers`.

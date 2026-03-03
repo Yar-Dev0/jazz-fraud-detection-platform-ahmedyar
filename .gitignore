@@ -9,7 +9,7 @@ logs
 .env
 
 # prisma
-backend/prisma/dev.db
+# backend/prisma/dev.db
 
 # build
 dist
