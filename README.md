@@ -6,6 +6,8 @@ This repository implements a lightweight transaction risk monitoring platform wi
 ## Contents
 This repository is my implementation of a compact transaction risk monitoring system. I built a TypeScript backend (Express + Prisma) and a React frontend to let you upload CSV transaction files, evaluate deterministic fraud rules, and explore flagged transactions and dashboard metrics.
 - `frontend/` — React + TypeScript SPA for uploading data and viewing transactions and dashboard metrics.
+- `backend/` — TypeScript + Express + Prisma backend handling CSV uploads, fraud evaluation, and API endpoints.
+- `Database: SQLite (`backend/dev.db`)` — pre-populated for easy evaluation; no additional setup required.
 
 ## Quick Setup
 
