@@ -49,7 +49,7 @@ To make evaluation easier:
      ```
    - This deletes the pre-filled DB and starts with an empty database.
 
-### Flag Counts Explanation
+## Flag Counts Explanation
 
 The dashboard shows:
 
