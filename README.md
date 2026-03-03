@@ -27,7 +27,7 @@ npm install
 npm run dev
 ```
 
-3) Upload sample transactions via the UI at the frontend URL (usually `http://localhost:5173`) or POST CSV to the backend `/upload` route.
+3) Sample transactions are already pre-loaded in the frontend (Dashboard & Transactions page) via the included database. You can optionally upload additional CSVs via the UI at `http://localhost:5173` or POST CSVs to the backend `/upload` route to test new transactions.
 
 ## Pre-Filled Data & Sample CSVs
 
