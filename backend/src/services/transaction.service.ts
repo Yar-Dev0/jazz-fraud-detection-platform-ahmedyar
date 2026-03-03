@@ -74,7 +74,7 @@ export class TransactionService {
         };
       } else if (options.status === "clean") {
         whereClause.risk_flags = {
-          not: { contains: "HIGH_RISK" },
+          contains: "NORMAL",
         };
       }
     }
