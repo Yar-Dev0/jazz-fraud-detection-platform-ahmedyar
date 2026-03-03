@@ -30,11 +30,10 @@ export default function TransactionsPage() {
       <header className="mb-4 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-slate-900">
-            Transactions
+            Transaction Explorer
           </h1>
-          <p className="mt-1 text-sm text-slate-500">
-            Explore individual transactions, filter by risk status, and page
-            through recent activity.
+          <p className="mt-1 text-sm text-slate-500 max-w-maz">
+            Browse, filter and investigate transactions across your account. Use filters to narrow results and the pagination controls to navigate historic data efficiently.
           </p>
         </div>
       </header>

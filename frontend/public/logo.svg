@@ -1,66 +1,41 @@
 <svg width="192" height="192" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
+    <!-- Shield gradient -->
     <linearGradient id="shieldGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stopColor="#2563eb" />
-      <stop offset="100%" stopColor="#1e40af" />
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
     </linearGradient>
-    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stopColor="#fbbf24" />
-      <stop offset="100%" stopColor="#f59e0b" />
+
+    <!-- Trend line gradient -->
+    <linearGradient id="trendGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#facc15"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
     </linearGradient>
   </defs>
 
-  <!-- Shield Shape -->
+  <!-- Modern rounded shield -->
   <path
-    d="M 100 20 L 160 50 L 160 110 C 160 160 100 180 100 180 C 100 180 40 160 40 110 L 40 50 Z"
+    d="M100 20 
+       C140 35 165 55 165 55 
+       V110 
+       C165 155 125 175 100 185 
+       C75 175 35 155 35 110 
+       V55 
+       C35 55 60 35 100 20Z"
     fill="url(#shieldGradient)"
-    stroke="#1e3a8a"
-    strokeWidth="2"
   />
 
-  <!-- Inner protective circle with gradient -->
-  <circle cx="100" cy="95" r="45" fill="rgba(255, 255, 255, 0.1)" />
-
-  <!-- Monitoring trend lines (up arrow pattern) -->
-  <g>
-    <!-- First data point -->
-    <circle cx="80" cy="120" r="4" fill="url(#accentGradient)" />
-    <!-- Second data point -->
-    <circle cx="100" cy="100" r="4" fill="url(#accentGradient)" />
-    <!-- Third data point -->
-    <circle cx="120" cy="80" r="4" fill="url(#accentGradient)" />
-
-    <!-- Connecting lines -->
-    <line
-      x1="80"
-      y1="120"
-      x2="100"
-      y2="100"
-      stroke="url(#accentGradient)"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="100"
-      y1="100"
-      x2="120"
-      y2="80"
-      stroke="url(#accentGradient)"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-    />
+  <!-- Upward monitoring trend -->
+  <g stroke="url(#trendGradient)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="75" y1="120" x2="100" y2="100" />
+    <line x1="100" y1="100" x2="125" y2="80" />
   </g>
 
-  <!-- Alert indicator dot in top-right -->
-  <circle cx="145" cy="55" r="6" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
+  <!-- Data points -->
+  <circle cx="75" cy="120" r="5" fill="url(#trendGradient)" />
+  <circle cx="100" cy="100" r="5" fill="url(#trendGradient)" />
+  <circle cx="125" cy="80" r="5" fill="url(#trendGradient)" />
 
-  <!-- Checkmark inside shield (security symbol) -->
-  <path
-    d="M 95 105 L 102 112 L 115 95"
-    stroke="rgba(255, 255, 255, 0.7)"
-    strokeWidth="2.5"
-    fill="none"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  />
+  <!-- Alert indicator (top-right) -->
+  <circle cx="150" cy="55" r="7" fill="#ef4444" stroke="white" stroke-width="2"/>
 </svg>

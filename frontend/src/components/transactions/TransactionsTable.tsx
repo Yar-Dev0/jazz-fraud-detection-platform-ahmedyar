@@ -35,10 +35,10 @@ export function TransactionsTable({
       <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
           <h2 className="text-lg font-semibold text-text-dark">
-            Transactions
+            Recent transactions
           </h2>
-          <p className="mt-1 text-sm text-slate-500">
-            Live view of incoming transactions with fraud signals.
+          <p className="mt-1 text-sm text-slate-500 max-w-xl">
+            Paginated transactions list. Filter flagged activity, review entries, or browse past records.
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -50,7 +50,8 @@ export function TransactionsTable({
             onChange={(e) =>
               onStatusChange(e.target.value as typeof statusFilter)
             }
-            className="rounded-full border border-light-gray bg-white px-3 py-1.5 text-sm text-text-dark shadow-sm transition-all duration-300 ease-out hover:shadow-md hover:border-primary-blue focus:outline-none focus:ring-2 focus:ring-primary-blue/40 focus:shadow-lg focus:shadow-primary-blue/20 cursor-pointer"
+            aria-label="Filter transactions by status"
+            className="rounded-full border border-primary-blue/30 bg-white px-3 py-1.5 text-sm text-text-dark shadow-sm transition-all duration-300 ease-out hover:shadow-md hover:border-primary-blue focus:outline-none focus:ring-2 focus:ring-primary-blue/40 focus:shadow-lg focus:shadow-primary-blue/20 cursor-pointer ring-1 ring-primary-blue/10"
           >
             <option value="all">All Transactions</option>
             <option value="high">High Risk</option>
