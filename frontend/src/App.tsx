@@ -18,7 +18,7 @@ function AppShell() {
           <Toaster position="top-right" />
           <Navbar />
 
-        <main className="mx-auto max-w-[var(--container-width)] px-4 py-8 sm:px-6">
+        <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
           <Routes>
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<Home />} />
