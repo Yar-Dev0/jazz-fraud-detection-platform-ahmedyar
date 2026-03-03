@@ -16,6 +16,7 @@ model Transaction {
   device_id      String
 
   risk_flag      String?
+  risk_flags     String   @default("NORMAL") // comma-separated: HIGH_RISK,SUSPICIOUS
   rule_triggered String?
 
   @@index([user_id])

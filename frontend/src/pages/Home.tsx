@@ -49,7 +49,7 @@ export default function Home() {
                 to="/upload"
                 className="inline-flex items-center justify-center rounded-lg bg-white/20 text-white font-semibold px-5 py-2.5 hover:bg-white/30 transition-all border border-white/30 backdrop-blur-sm text-sm"
               >
-                Upload Data
+                Upload Transactions
               </Link>
             </div>
           </div>

@@ -4,6 +4,7 @@ import {
   DashboardStats,
   TransactionInput,
   TransactionRecord,
+  RiskFlag,
 } from "../types/api.types";
 
 const prisma = new PrismaClient();
@@ -30,16 +31,27 @@ export class TransactionService {
         input
       );
 
+      // Determine primary risk flag (prioritize HIGH_RISK over SUSPICIOUS)
+      const primaryRiskFlag = fraudResult.risk_flags.includes("HIGH_RISK")
+        ? "HIGH_RISK"
+        : fraudResult.risk_flags.includes("SUSPICIOUS")
+        ? "SUSPICIOUS"
+        : "NORMAL";
+
       const created = await tx.transaction.create({
         data: {
           ...input,
           timestamp: new Date(input.timestamp),
-          risk_flag: fraudResult.risk_flag,
+          risk_flag: primaryRiskFlag,
+          risk_flags: fraudResult.risk_flags.join(","),
           rule_triggered: fraudResult.rule_triggered,
         },
       });
 
-      return created as unknown as TransactionRecord;
+      return {
+        ...created,
+        risk_flags: (created.risk_flags || "NORMAL").split(",") as RiskFlag[],
+      } as unknown as TransactionRecord;
     });
   }
 
@@ -47,17 +59,32 @@ export class TransactionService {
     const transactions = await prisma.transaction.findMany({
       orderBy: { timestamp: "desc" },
     });
-    return transactions as unknown as TransactionRecord[];
+    return transactions.map(tx => ({
+      ...tx,
+      risk_flags: (tx.risk_flags || "NORMAL").split(",") as RiskFlag[],
+    })) as unknown as TransactionRecord[];
   }
 
   public static async getDashboardStats(): Promise<DashboardStats> {
-    const [total, highRisk, suspicious] = await Promise.all([
-      prisma.transaction.count(),
-      prisma.transaction.count({ where: { risk_flag: "HIGH_RISK" } }),
-      prisma.transaction.count({ where: { risk_flag: "SUSPICIOUS" } }),
-    ]);
+    const total = await prisma.transaction.count();
+    const transactions = await prisma.transaction.findMany({
+      select: { risk_flags: true },
+    });
 
-    const flagged = highRisk + suspicious;
+    let highRisk = 0;
+    let suspicious = 0;
+
+    transactions.forEach(tx => {
+      const flags = (tx.risk_flags || "NORMAL").split(",");
+      if (flags.includes("HIGH_RISK")) highRisk++;
+      if (flags.includes("SUSPICIOUS")) suspicious++;
+    });
+
+    // Flagged is unique transactions (not double-counted)
+    const flagged = transactions.filter(tx => {
+      const flags = (tx.risk_flags || "NORMAL").split(",");
+      return flags.includes("HIGH_RISK") || flags.includes("SUSPICIOUS");
+    }).length;
 
     return {
       total_transactions: total,

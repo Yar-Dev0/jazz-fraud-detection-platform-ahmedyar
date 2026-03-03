@@ -1,4 +1,4 @@
-export type RiskFlag = "HIGH_RISK" | "SUSPICIOUS" | "NORMAL" | null;
+export type RiskFlag = "HIGH_RISK" | "SUSPICIOUS" | "NORMAL";
 
 export interface Transaction {
   id: number;
@@ -7,7 +7,7 @@ export interface Transaction {
   amount: number;
   timestamp: string;
   device_id: string;
-  risk_flag: RiskFlag;
+  risk_flags: RiskFlag[];
   rule_triggered: string | null;
 }
 

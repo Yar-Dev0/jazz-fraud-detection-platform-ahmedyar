@@ -18,6 +18,9 @@ build
 # OS
 .DS_Store
 
+# upload temp files
+uploads/
+
 # IDE
 .vscode
 .idea

@@ -11,6 +11,7 @@ export interface TransactionInput {
 export interface TransactionRecord extends TransactionInput {
   id: number;
   risk_flag: RiskFlag | null;
+  risk_flags: RiskFlag[];
   rule_triggered: string | null;
 }
 

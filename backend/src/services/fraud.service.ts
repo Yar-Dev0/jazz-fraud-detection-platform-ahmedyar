@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 import { RiskFlag, TransactionInput } from "../types/api.types";
 
 export interface FraudEvaluationResult {
-  risk_flag: RiskFlag;
+  risk_flags: RiskFlag[];
   rule_triggered: string | null;
 }
 
@@ -11,27 +11,28 @@ export class FraudService {
     tx: Prisma.TransactionClient,
     input: TransactionInput
   ): Promise<FraudEvaluationResult> {
+    const triggeredRules: string[] = [];
+    const riskFlags: Set<RiskFlag> = new Set();
+
+    // Rule1: Check if amount exceeds threshold
     if (input.amount > 20000) {
-      return {
-        risk_flag: "HIGH_RISK",
-        rule_triggered: "Rule1: amount > 20000",
-      };
+      triggeredRules.push("Rule1: amount > 20000");
+      riskFlags.add("HIGH_RISK");
     }
 
+    // Rule2: Check if user has made 3 or more transactions
     const userTxCount = await tx.transaction.count({
       where: { user_id: input.user_id },
     });
 
     if (userTxCount >= 3) {
-      return {
-        risk_flag: "SUSPICIOUS",
-        rule_triggered: "Rule2: more than 3 transactions by same user",
-      };
+      triggeredRules.push("Rule2: more than 3 transactions by same user");
+      riskFlags.add("SUSPICIOUS");
     }
 
     return {
-      risk_flag: "NORMAL",
-      rule_triggered: null,
+      risk_flags: Array.from(riskFlags).length > 0 ? Array.from(riskFlags) : ["NORMAL"],
+      rule_triggered: triggeredRules.length > 0 ? triggeredRules.join(", ") : null,
     };
   }
 }

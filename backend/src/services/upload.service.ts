@@ -3,6 +3,7 @@ import { FraudService } from "./fraud.service";
 import { transactionSchema } from "../validations/transaction.schema";
 import { parseCsvFile } from "../utils/csv.parser";
 import { UploadSummary } from "../types/api.types";
+import { promises as fs } from "fs";
 
 const prisma = new PrismaClient();
 
@@ -60,25 +61,41 @@ export class UploadService {
           data
         );
 
+        const primaryRiskFlag = fraudResult.risk_flags.includes("HIGH_RISK")
+          ? "HIGH_RISK"
+          : fraudResult.risk_flags.includes("SUSPICIOUS")
+          ? "SUSPICIOUS"
+          : "NORMAL";
+
         await tx.transaction.create({
           data: {
             ...data,
             amount: data.amount,
             timestamp: new Date(data.timestamp),
-            risk_flag: fraudResult.risk_flag,
+            risk_flag: primaryRiskFlag,
+            risk_flags: fraudResult.risk_flags.join(","),
             rule_triggered: fraudResult.rule_triggered,
           },
         });
 
         inserted += 1;
 
-        if (fraudResult.risk_flag === "HIGH_RISK") {
+        if (fraudResult.risk_flags.includes("HIGH_RISK")) {
           highRisk += 1;
-        } else if (fraudResult.risk_flag === "SUSPICIOUS") {
+        }
+        if (fraudResult.risk_flags.includes("SUSPICIOUS")) {
           suspicious += 1;
         }
       }
     });
+
+    // Delete the file after successful processing
+    try {
+      await fs.unlink(filePath);
+    } catch (error) {
+      console.error(`Failed to delete file ${filePath}:`, error);
+      // Don't throw error - continue even if file deletion fails
+    }
 
     return {
       file_name: parsed.fileName,
