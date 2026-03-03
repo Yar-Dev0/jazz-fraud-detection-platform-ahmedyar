@@ -1,5 +1,8 @@
 # Mini Transaction Risk Monitoring System
 
+## Live Demo
+Deployed Application: https://mini-trms.vercel.app
+
 ## Overview
 This repository implements a lightweight transaction risk monitoring platform with a React frontend and a Node.js + TypeScript backend. The system ingests transaction CSV uploads, applies deterministic fraud rules, and surfaces flagged transactions and dashboard statistics.
 

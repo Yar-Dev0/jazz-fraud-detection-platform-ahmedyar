@@ -1,4 +1,4 @@
-import type { DashboardStats, Transaction, UploadSummary } from "../types/api.types";
+import type { DashboardStats, TransactionListResponse, UploadSummary } from "../types/api.types";
 import axiosInstance from "./axios";
 
 export async function fetchDashboard(): Promise<DashboardStats> {
