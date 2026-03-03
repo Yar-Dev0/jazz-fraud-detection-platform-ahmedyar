@@ -111,24 +111,24 @@ Why this structure:
 
 ## Scaling to 1M Transactions/Day — Practical Roadmap
 
-Short-term (immediate improvements):
+**Short-term (immediate improvements):**
 - Move from SQLite to PostgreSQL for concurrent writes, better indexing, and partitioning support.
 - Add background ingestion queue for CSV processing (e.g., BullMQ, RabbitMQ, or AWS SQS) so HTTP requests return quickly and heavy processing runs async.
 - Add batching when writing transactions to DB to reduce overhead.
 
-Medium-term (throughput & storage):
+**Medium-term (throughput & storage):**
 - Use time-based partitioning (Postgres table partitioning) per day/week to keep query performance stable.
 - Create indexes for frequently queried columns: `createdAt`, `userId`, and any columns used by rules.
 - Introduce read-replicas for analytic / dashboard queries to avoid affecting ingestion.
 - Cache hot datasets (recent user activity) in Redis to enable fast velocity rule evaluation without many DB reads.
 
-Long-term (1M+/day):
+**Long-term (1M+/day):**
 - Stream processing: push transactions into a Kafka topic and consume with stream processors to evaluate real-time rules at scale.
 - Move heavy/slow rules to stream processors and emit alerts into downstream systems (Elasticsearch, time-series DB, or alerting pipeline).
 - Autoscale processing workers and API nodes behind a load balancer.
 - Observability: add metrics (Prometheus), traces, and logging to track ingestion latency and rule evaluation times.
 
-Estimated sizing notes:
+**Estimated sizing notes:**
 - 1M/day ≈ 11.6 transactions/sec sustained; consider peak factors (burst multipliers) and plan for 10x peak headroom.
 - With batching and a performant DB, a small cluster of worker nodes + a managed DB can handle this, move to stream processors when latency and complexity grow.
 
