@@ -40,7 +40,7 @@ To make evaluation easier:
    - All transactions currently visible in the frontend (Dashboard & Transactions page) come from this database.
    - Evaluators **do not need to upload CSVs** to see working data and dashboard statistics.
 
-3. **Reset Database (Optional if needs a fresh DB)**
+2. **Reset Database (Optional if needs a fresh DB)**
    - If the evaluator wants to start fresh:
      ```bash
      cd backend
@@ -48,6 +48,19 @@ To make evaluation easier:
      npm run dev
      ```
    - This deletes the pre-filled DB and starts with an empty database.
+
+### Flag Counts Explanation
+
+The dashboard shows:
+
+- **Total Transactions:** 60  
+- **High Risk:** 15  
+- **Suspicious:** 7
+- **Flagged Transactions:** 21  
+
+> Note: `Flagged Transactions` counts **unique transactions** that triggered **any rule**.  
+> Some transactions can trigger multiple rules. For example, `TX058` triggered both a high-risk and a suspicious rule.  
+> So although 15 + 7 = 22 total rule hits, there is 1 transaction counted in both categories, making **21 unique flagged transactions**.
 
 ## Architecture Overview
 
