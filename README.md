@@ -62,6 +62,8 @@ The dashboard shows:
 > Some transactions can trigger multiple rules. For example, `TX058` triggered both a high-risk and a suspicious rule.  
 > So although 15 + 7 = 22 total rule hits, there is 1 transaction counted in both categories, making **21 unique flagged transactions**.
 
+- The remaining 39 transactions are **clean** (no rules triggered), which together with the 21 flagged transactions makes a **total of 60 transactions** in the database.
+
 ## Architecture Overview
 
 - API: An Express app in `backend/src` exposes REST endpoints. Routes live in `backend/src/routes` and controllers in `backend/src/controllers`.
