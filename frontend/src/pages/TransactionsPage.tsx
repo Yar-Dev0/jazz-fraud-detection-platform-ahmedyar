@@ -1,6 +1,6 @@
-import { useDashboard } from "../hooks/useDashboard";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTransactions } from "../hooks/useTransactions";
 
 const TransactionsTable = lazy(() =>
   import("../components/transactions/TransactionsTable").then((mod) => ({
@@ -9,8 +9,21 @@ const TransactionsTable = lazy(() =>
 );
 
 export default function TransactionsPage() {
-  const { transactions, error } = useDashboard();
   const navigate = useNavigate();
+
+  const [page, setPage] = useState(1);
+  const pageSize = 30;
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | "high" | "suspicious" | "clean"
+  >("all");
+
+  const { transactions, total, error } = useTransactions({
+    page,
+    pageSize,
+    status: statusFilter,
+  });
+
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   return (
     <div className="space-y-6">
@@ -50,7 +63,18 @@ export default function TransactionsPage() {
           </div>
         }
       >
-        <TransactionsTable transactions={transactions} />
+        <TransactionsTable
+          transactions={transactions}
+          page={page}
+          totalPages={totalPages}
+          totalCount={total}
+          statusFilter={statusFilter}
+          onPageChange={setPage}
+          onStatusChange={(s) => {
+            setStatusFilter(s);
+            setPage(1);
+          }}
+        />
       </Suspense>
     </div>
   );

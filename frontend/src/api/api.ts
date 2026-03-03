@@ -6,8 +6,17 @@ export async function fetchDashboard(): Promise<DashboardStats> {
   return data;
 }
 
-export async function fetchTransactions(): Promise<Transaction[]> {
-  const { data } = await axiosInstance.get<Transaction[]>("/transactions");
+export async function fetchTransactions(
+  page = 1,
+  pageSize = 30,
+  status: "all" | "high" | "suspicious" | "clean" = "all"
+): Promise<TransactionListResponse> {
+  const { data } = await axiosInstance.get<TransactionListResponse>(
+    "/transactions",
+    {
+      params: { page, pageSize, status },
+    }
+  );
   return data;
 }
 

@@ -17,10 +17,10 @@ Clear separation between:
 
 ## Fraud Rules
 Rule1:
-If amount > 20000 → HIGH_RISK
+If amount > 20000 ? HIGH_RISK
 
 Rule2:
-If more than 3 transactions per user → SUSPICIOUS
+If more than 3 transactions per user ? SUSPICIOUS
 
 ## Setup
 
@@ -43,6 +43,8 @@ npm run dev
 
 ## Scaling to 1M Transactions/Day
 - Move to PostgreSQL
+- **Index timestamp column** (already added) to avoid full table scans when sorting
+- Perform ORDER BY/take/skip on the database instead of pulling and sorting all rows in the client
 - Add read replicas
 - Introduce async processing queue
 - Add database partitioning

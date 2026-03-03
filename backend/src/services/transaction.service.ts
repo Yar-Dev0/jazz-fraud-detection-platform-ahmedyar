@@ -31,7 +31,6 @@ export class TransactionService {
         input
       );
 
-      // Determine primary risk flag (prioritize HIGH_RISK over SUSPICIOUS)
       const primaryRiskFlag = fraudResult.risk_flags.includes("HIGH_RISK")
         ? "HIGH_RISK"
         : fraudResult.risk_flags.includes("SUSPICIOUS")
@@ -55,14 +54,47 @@ export class TransactionService {
     });
   }
 
-  public static async listTransactions(): Promise<TransactionRecord[]> {
-    const transactions = await prisma.transaction.findMany({
-      orderBy: { timestamp: "desc" },
-    });
-    return transactions.map(tx => ({
+  public static async listTransactions(options?: {
+    page?: number;
+    pageSize?: number;
+    status?: "all" | "high" | "suspicious" | "clean";
+  }): Promise<{ transactions: TransactionRecord[]; total: number }> {
+    const page = options?.page && options.page > 0 ? options.page : 1;
+    const pageSize = options?.pageSize && options.pageSize > 0 ? options.pageSize : 30;
+
+    const whereClause: Prisma.TransactionWhereInput = {};
+    if (options?.status && options.status !== "all") {
+      if (options.status === "high") {
+        whereClause.risk_flags = {
+          contains: "HIGH_RISK",
+        };
+      } else if (options.status === "suspicious") {
+        whereClause.risk_flags = {
+          contains: "SUSPICIOUS",
+        };
+      } else if (options.status === "clean") {
+        whereClause.risk_flags = {
+          not: { contains: "HIGH_RISK" },
+        };
+      }
+    }
+
+    const [total, transactions] = await Promise.all([
+      prisma.transaction.count({ where: whereClause }),
+      prisma.transaction.findMany({
+        where: whereClause,
+        orderBy: { timestamp: "desc" },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+      }),
+    ]);
+
+    const formatted = transactions.map(tx => ({
       ...tx,
       risk_flags: (tx.risk_flags || "NORMAL").split(",") as RiskFlag[],
     })) as unknown as TransactionRecord[];
+
+    return { transactions: formatted, total };
   }
 
   public static async getDashboardStats(): Promise<DashboardStats> {
@@ -80,7 +112,6 @@ export class TransactionService {
       if (flags.includes("SUSPICIOUS")) suspicious++;
     });
 
-    // Flagged is unique transactions (not double-counted)
     const flagged = transactions.filter(tx => {
       const flags = (tx.risk_flags || "NORMAL").split(",");
       return flags.includes("HIGH_RISK") || flags.includes("SUSPICIOUS");

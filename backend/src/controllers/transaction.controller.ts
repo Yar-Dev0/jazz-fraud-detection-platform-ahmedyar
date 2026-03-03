@@ -19,13 +19,21 @@ export class TransactionController {
   }
 
   public static async listTransactions(
-    _req: Request,
+    req: Request,
     res: Response,
     next: NextFunction
   ) {
     try {
-      const transactions = await TransactionService.listTransactions();
-      res.json(transactions);
+      const page = parseInt((req.query.page as string) || "1", 10);
+      const pageSize = parseInt((req.query.pageSize as string) || "30", 10);
+      const status = (req.query.status as string) || "all";
+
+      const result = await TransactionService.listTransactions({
+        page,
+        pageSize,
+        status: status as any,
+      });
+      res.json(result);
     } catch (error) {
       next(error);
     }

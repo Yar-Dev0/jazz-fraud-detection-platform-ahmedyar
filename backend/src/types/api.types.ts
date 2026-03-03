@@ -22,6 +22,11 @@ export interface DashboardStats {
   suspicious: number;
 }
 
+export interface TransactionListResponse {
+  transactions: TransactionRecord[];
+  total: number;
+}
+
 export interface UploadSummary {
   file_name: string;
   total_rows: number;

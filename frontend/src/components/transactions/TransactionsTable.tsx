@@ -1,48 +1,27 @@
-import { useMemo, useState } from "react";
 import type { Transaction } from "../../types/api.types";
 import { Card } from "../ui/Card";
 import { Badge } from "../ui/Badge";
 
 interface TransactionsTableProps {
   transactions: Transaction[];
+  page: number;
+  totalPages: number;
+  totalCount: number;
+  statusFilter: "all" | "high" | "suspicious" | "clean";
+  onPageChange: (page: number) => void;
+  onStatusChange: (status: "all" | "high" | "suspicious" | "clean") => void;
 }
 
-export function TransactionsTable({ transactions }: TransactionsTableProps) {
-  const [statusFilter, setStatusFilter] = useState<"all" | "high" | "suspicious" | "clean">(
-    "all"
-  );
-  const [page, setPage] = useState(1);
+export function TransactionsTable({
+  transactions,
+  page,
+  totalPages,
+  totalCount,
+  statusFilter,
+  onPageChange,
+  onStatusChange,
+}: TransactionsTableProps) {
   const pageSize = 30;
-
-  const sortedTransactions = useMemo(() => {
-    return [...transactions].sort((a, b) => {
-      const ta = new Date(a.timestamp).getTime();
-      const tb = new Date(b.timestamp).getTime();
-      return ta - tb;
-    });
-  }, [transactions]);
-
-  const filtered = useMemo(() => {
-    return sortedTransactions.filter((tx) => {
-      if (statusFilter === "all") return true;
-      if (statusFilter === "high") return tx.risk_flags.includes("HIGH_RISK");
-      if (statusFilter === "suspicious") return tx.risk_flags.includes("SUSPICIOUS");
-      return tx.risk_flags.includes("NORMAL");
-    });
-  }, [sortedTransactions, statusFilter]);
-
-  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
-  const currentPage = Math.min(page, totalPages);
-
-  const paged = useMemo(() => {
-    const start = (currentPage - 1) * pageSize;
-    return filtered.slice(start, start + pageSize);
-  }, [filtered, currentPage]);
-
-  const handleChangeFilter = (value: typeof statusFilter) => {
-    setStatusFilter(value);
-    setPage(1);
-  };
 
   const formatAmount = (amount: number) =>
     new Intl.NumberFormat("en-US", {
@@ -69,7 +48,7 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
           <select
             value={statusFilter}
             onChange={(e) =>
-              handleChangeFilter(e.target.value as typeof statusFilter)
+              onStatusChange(e.target.value as typeof statusFilter)
             }
             className="rounded-full border border-light-gray bg-white px-3 py-1.5 text-sm text-text-dark shadow-sm transition-all duration-300 ease-out hover:shadow-md hover:border-primary-blue focus:outline-none focus:ring-2 focus:ring-primary-blue/40 focus:shadow-lg focus:shadow-primary-blue/20 cursor-pointer"
           >
@@ -94,36 +73,30 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 bg-white">
-            {paged.map((tx) => (
-              <tr
-                key={tx.id}
-                className={rowClassName(tx.risk_flags)}
-              >
+            {transactions.map((tx) => (
+              <tr key={tx.id} className={rowClassName(tx.risk_flags)}>
                 <Cell className="font-medium text-slate-900">
                   <div className="flex items-center gap-2">
                     {tx.transaction_id}
-                    {tx.risk_flags.includes("HIGH_RISK") && tx.risk_flags.includes("SUSPICIOUS") && (
-                      <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-purple-600 text-white text-xs font-bold">
-                        <span>⚠️</span>
-                        <span>CRITICAL</span>
-                      </div>
-                    )}
+                    {tx.risk_flags.includes("HIGH_RISK") &&
+                      tx.risk_flags.includes("SUSPICIOUS") && (
+                        <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-purple-600 text-white text-xs font-bold">
+                          <span>??</span>
+                          <span>CRITICAL</span>
+                        </div>
+                      )}
                   </div>
                 </Cell>
                 <Cell>{tx.user_id}</Cell>
                 <Cell className="font-semibold text-slate-900">
                   {formatAmount(tx.amount)}
                 </Cell>
-                <Cell>
-                  {new Date(tx.timestamp).toLocaleString()}
-                </Cell>
+                <Cell>{new Date(tx.timestamp).toLocaleString()}</Cell>
                 <Cell>{tx.device_id}</Cell>
                 <Cell>
                   <div className="space-y-1">
                     {tx.risk_flags.map((flag, idx) => (
-                      <div key={idx}>
-                        {renderRiskBadge(flag)}
-                      </div>
+                      <div key={idx}>{renderRiskBadge(flag)}</div>
                     ))}
                   </div>
                 </Cell>
@@ -131,13 +104,16 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
                   {tx.rule_triggered ? (
                     <div className="space-y-1">
                       {tx.rule_triggered.split(", ").map((rule, idx) => (
-                        <div key={idx} className="text-xs bg-amber-50 border border-amber-200 rounded px-2 py-1 font-medium text-amber-800">
+                        <div
+                          key={idx}
+                          className="text-xs bg-amber-50 border border-amber-200 rounded px-2 py-1 font-medium text-amber-800"
+                        >
                           {rule}
                         </div>
                       ))}
                     </div>
                   ) : (
-                    "—"
+                    "✔"
                   )}
                 </Cell>
               </tr>
@@ -157,47 +133,39 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
       </div>
       <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
         <div>
-          Showing{" "}
+          Showing{' '}
           <span className="font-semibold text-slate-700">
-            {filtered.length === 0
-              ? 0
-              : (currentPage - 1) * pageSize + 1}
-          </span>{" "}
-          to{" "}
+            {totalCount === 0 ? 0 : (page - 1) * pageSize + 1}
+          </span>{' '}
+          to{' '}
           <span className="font-semibold text-slate-700">
-            {Math.min(currentPage * pageSize, filtered.length)}
-          </span>{" "}
-          of{" "}
+            {Math.min(page * pageSize, totalCount)}
+          </span>{' '}
+          of{' '}
           <span className="font-semibold text-slate-700">
-            {filtered.length}
-          </span>{" "}
+            {totalCount}
+          </span>{' '}
           transactions
         </div>
         <div className="flex items-center gap-2">
           <button
             type="button"
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={currentPage === 1}
+            onClick={() => onPageChange(Math.max(1, page - 1))}
+            disabled={page === 1}
             className="rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600 shadow-sm transition-all duration-300 ease-out hover:shadow-md hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:shadow-sm disabled:hover:border-slate-200 disabled:hover:bg-white"
           >
             Previous
           </button>
           <span className="text-slate-600">
-            Page{" "}
-            <span className="font-semibold text-slate-800">
-              {currentPage}
-            </span>{" "}
-            of{" "}
-            <span className="font-semibold text-slate-800">
-              {totalPages}
-            </span>
+            Page{' '}
+            <span className="font-semibold text-slate-800">{page}</span>{' '}
+            of{' '}
+            <span className="font-semibold text-slate-800">{totalPages}</span>
           </span>
           <button
             type="button"
-            onClick={() =>
-              setPage((p) => Math.min(totalPages, p + 1))
-            }
-            disabled={currentPage === totalPages}
+            onClick={() => onPageChange(Math.min(totalPages, page + 1))}
+            disabled={page === totalPages}
             className="rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600 shadow-sm transition-all duration-300 ease-out hover:shadow-md hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:shadow-sm disabled:hover:border-slate-200 disabled:hover:bg-white"
           >
             Next

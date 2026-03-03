@@ -24,16 +24,21 @@ export function useDashboard(): UseDashboardState {
   });
 
   const {
-    data: transactions,
+    data: transactionsData,
     isLoading: loadingTx,
     isError: txError,
     error: txErrObj,
     refetch: refetchTx,
-  } = useQuery<Transaction[]>({
+  } = useQuery<{
+    transactions: Transaction[];
+    total: number;
+  }>({
     queryKey: ["transactions"],
-    queryFn: fetchTransactions,
+    queryFn: () => fetchTransactions(),
     retry: false,
   });
+
+  const transactions = transactionsData?.transactions;
 
   const loading = loadingStats || loadingTx;
   let error: string | null = null;

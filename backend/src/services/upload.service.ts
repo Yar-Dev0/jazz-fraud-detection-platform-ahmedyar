@@ -89,12 +89,10 @@ export class UploadService {
       }
     });
 
-    // Delete the file after successful processing
     try {
       await fs.unlink(filePath);
     } catch (error) {
       console.error(`Failed to delete file ${filePath}:`, error);
-      // Don't throw error - continue even if file deletion fails
     }
 
     return {

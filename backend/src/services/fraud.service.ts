@@ -14,13 +14,11 @@ export class FraudService {
     const triggeredRules: string[] = [];
     const riskFlags: Set<RiskFlag> = new Set();
 
-    // Rule1: Check if amount exceeds threshold
     if (input.amount > 20000) {
       triggeredRules.push("Rule1: amount > 20000");
       riskFlags.add("HIGH_RISK");
     }
 
-    // Rule2: Check if user has made 3 or more transactions
     const userTxCount = await tx.transaction.count({
       where: { user_id: input.user_id },
     });
