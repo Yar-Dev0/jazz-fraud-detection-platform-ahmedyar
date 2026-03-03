@@ -44,7 +44,7 @@ npm run dev
 ## Scaling to 1M Transactions/Day
 - Move to PostgreSQL
 - **Index timestamp column** (already added) to avoid full table scans when sorting
-- Perform ORDER BY/take/skip on the database instead of pulling and sorting all rows in the client
+- Perform `ORDER BY timestamp ASC`/take/skip on the database instead of pulling and sorting all rows in the client (earliest first)
 - Add read replicas
 - Introduce async processing queue
 - Add database partitioning

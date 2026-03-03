@@ -37,7 +37,7 @@ export function TransactionsTable({
           <h2 className="text-lg font-semibold text-text-dark">
             Transactions
           </h2>
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1 text-sm text-slate-500">
             Live view of incoming transactions with fraud signals.
           </p>
         </div>

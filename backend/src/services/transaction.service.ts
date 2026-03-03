@@ -83,7 +83,7 @@ export class TransactionService {
       prisma.transaction.count({ where: whereClause }),
       prisma.transaction.findMany({
         where: whereClause,
-        orderBy: { timestamp: "desc" },
+        orderBy: { timestamp: "asc" },
         skip: (page - 1) * pageSize,
         take: pageSize,
       }),
