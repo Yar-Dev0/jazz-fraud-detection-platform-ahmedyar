@@ -33,13 +33,6 @@ npm run dev
 
 ## Architecture Overview
 
-- API: RESTful Express app in `backend/src`. Routes are defined under `routes/` and controllers in `controllers/`.
-- Services: Business logic lives in `services/` (notably `fraud.service.ts` and `transaction.service.ts`).
-- Data: Prisma manages the relational schema under `prisma/` and the database used for local development is SQLite. Migrations are committed under `prisma/migrations/`.
-- Frontend: React components under `frontend/src/components` with hooks in `frontend/src/hooks` and API wrappers in `frontend/src/api`.
-
-## Architecture Overview
-
 - API: An Express app in `backend/src` exposes REST endpoints. Routes live in `backend/src/routes` and controllers in `backend/src/controllers`.
 - Services: Domain logic is in `backend/src/services` (particularly `fraud.service.ts`, `transaction.service.ts`, and `upload.service.ts`).
 - Data: Prisma is used for data modeling (`backend/prisma/schema.prisma`) and migrations (`backend/prisma/migrations`). The local development DB is SQLite; production should use Postgres.
