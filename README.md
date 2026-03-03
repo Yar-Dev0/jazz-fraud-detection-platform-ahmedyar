@@ -106,7 +106,7 @@ Long-term (1M+/day):
 
 Estimated sizing notes:
 - 1M/day ≈ 11.6 transactions/sec sustained; consider peak factors (burst multipliers) and plan for 10x peak headroom.
-- With batching and a performant DB, a small cluster of worker nodes + a managed DB can handle this—move to stream processors when latency and complexity grow.
+- With batching and a performant DB, a small cluster of worker nodes + a managed DB can handle this, move to stream processors when latency and complexity grow.
 
 ## Important Instructions & Evaluation Guidelines (Please Read)
 
@@ -118,9 +118,11 @@ Estimated sizing notes:
 
 ## How to Evaluate This Project Locally
 
-- Start the backend and run migrations as shown in Quick Setup.
+- Start the backend as shown in Quick Setup.
 - Start the frontend.
-- Upload a CSV via the UI or use the `/upload` API. Sample CSVs (column names) match the Prisma schema in `prisma/schema.prisma`.
+- Open the frontend in your browser (http://localhost:5173):
+- The app comes with pre-filled sample transactions in the included database, so the Dashboard and Transactions page already show working data.
+- Optionally, you can upload additional CSV files via the UI or POST CSVs to the backend /upload route to test new transactions. 
 - Review flagged transactions in the frontend `Transactions` page and view aggregated stats on the Dashboard.
 
 ## Next Steps / How to Extend
@@ -131,15 +133,15 @@ Estimated sizing notes:
 
 ## Core features & optimizations I implemented (quick reference)
 
-- Indexing: the schema includes indexes on `user_id`, `risk_flag`, and `timestamp` to accelerate velocity checks and time-sorted queries (`backend/prisma/schema.prisma`).
-- Pagination: `GET /transactions` supports `page` and `pageSize` with server-side `skip`/`take` to avoid pulling all rows to the client. The frontend paginates with a default page size of 30.
-- Validation middleware: `validateBody` (Zod-based) validates incoming `POST /transactions` payloads and returns friendly validation errors when payloads are malformed.
-- Error handling: `errorMiddleware` centralizes error responses and returns structured JSON (`{ message, details }`).
-- Multi-file upload: the UI and the API support uploading multiple CSVs at once. `UploadService.processMultipleFiles` processes them sequentially and returns per-file summaries.
-- Duplicate removal: duplicates are detected via `transaction_id` lookups and skipped; the upload summary reports how many duplicates were found.
-- Multiple-rule triggers: transactions can have multiple flags (`risk_flags`) and `rule_triggered` stores which rules matched. The UI displays both the primary flag and the full list of matched rules.
-- Upload summary: the frontend shows a detailed per-file summary (inserted, duplicates, invalid rows, high-risk, suspicious counts).
-- Frontend data strategy: the app uses `@tanstack/react-query` (React Query) for caching, retries, and background refetching. This keeps the UI responsive and reduces unnecessary network traffic.
-- Notifications: `react-hot-toast` is used for success/error toasts during uploads and actions.
-- Modularity & lazy-friendly UI: components are small and focused (`UploadSection`, `UploadSummary`, `TransactionsTable`, `TransactionRow`) so they are implemented to lazy-load or split into bundles later.
-- Filters: server-side filtering by flag (`status` query param) avoids transferring extra rows to the client.
+- **Indexing:** the schema includes indexes on `user_id`, `risk_flag`, and `timestamp` to accelerate velocity checks and time-sorted queries (`backend/prisma/schema.prisma`).
+- **Pagination**: `GET /transactions` supports `page` and `pageSize` with server-side `skip`/`take` to avoid pulling all rows to the client. The frontend paginates with a default page size of 30.
+- **Validation middleware:** `validateBody` (Zod-based) validates incoming `POST /transactions` payloads and returns friendly validation errors when payloads are malformed.
+- **Error handling:** `errorMiddleware` centralizes error responses and returns structured JSON (`{ message, details }`).
+- **Multi-file upload:** the UI and the API support uploading multiple CSVs at once. `UploadService.processMultipleFiles` processes them sequentially and returns per-file summaries.
+- **Duplicate removal:** duplicates are detected via `transaction_id` lookups and skipped; the upload summary reports how many duplicates were found.
+- **Multiple-rule triggers:** transactions can have multiple flags (`risk_flags`) and `rule_triggered` stores which rules matched. The UI displays both the primary flag and the full list of matched rules.
+- **Upload summary:** the frontend shows a detailed per-file summary (inserted, duplicates, invalid rows, high-risk, suspicious counts).
+- **Frontend data strategy:** the app uses `@tanstack/react-query` (React Query) for caching, retries, and background refetching. This keeps the UI responsive and reduces unnecessary network traffic.
+- **Notifications:** `react-hot-toast` is used for success/error toasts during uploads and actions.
+- **Modularity & lazy-friendly UI:** components are small and focused (`UploadSection`, `UploadSummary`, `TransactionsTable`, `TransactionRow`) so they are implemented to lazy-load or split into bundles later.
+- **Filters:** server-side filtering by flag (`status` query param) avoids transferring extra rows to the client.
