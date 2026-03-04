@@ -16,6 +16,9 @@ This repository is my implementation of a compact transaction risk monitoring sy
 
 Prerequisites: Node 18+, npm (or pnpm/yarn), Git.
 
+# Clone the repository
+git clone https://github.com/Yar-Dev0/jazz-fraud-detection-platform-ahmedyar.git
+
 1) Backend
 
 Open a terminal, navigate to the backend folder, and start the server:
