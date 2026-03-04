@@ -16,10 +16,13 @@ This repository is my implementation of a compact transaction risk monitoring sy
 
 Prerequisites: Node 18+, npm (or pnpm/yarn), Git.
 
-# Clone the repository
+1) Clone the repository
+```bash
 git clone https://github.com/Yar-Dev0/jazz-fraud-detection-platform-ahmedyar.git
+cd jazz-fraud-detection-platform-ahmedyar
+```
 
-1) Backend
+2) Backend
 
 Open a terminal, navigate to the backend folder, and start the server:
 
@@ -29,7 +32,7 @@ npm install
 npm run dev
 ```
 
-2) Frontend
+3) Frontend
 
 Open a new terminal window, navigate to the frontend folder, and start the frontend:
 
@@ -39,7 +42,7 @@ npm install
 npm run dev
 ```
 
-3) Sample transactions are already pre-loaded in the frontend (Dashboard & Transactions page) via the included database. You can optionally upload additional CSVs via the UI at `http://localhost:5173` or POST CSVs to the backend `/upload` route to test new transactions.
+4) Provided Sample transactions are already pre-loaded in the frontend (Dashboard & Transactions page) via the included database. You can optionally upload additional CSVs via the UI at `http://localhost:5173` or POST CSVs to the backend `/upload` route to test new transactions.
 
 ## Pre-Filled Data & Sample CSVs
 
